@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "5d3c8f2a-7b41-4e6a-9c1d-2f8e6b0a4c73",
+  "alias": "AssuranceLearningCalendarWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart", "TeamsPersonalApp", "TeamsTab", "SharePointFullPage"],
+  "supportsThemeVariants": false,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": { "default": "Advanced" },
+      "title": { "default": "Assurance Learning Calendar" },
+      "description": { "default": "Assurance Virtual Learning Enrollment Calendar with filters, schedule table, monthly calendar and Excel export." },
+      "officeFabricIconFontName": "Calendar",
+      "properties": {
+        "dataSource": "Local",
+        "listName": "AssuranceLearningCalendar",
+        "siteUrl": "",
+        "title": "Assurance Virtual Learning Enrollment Calendar",
+        "questionsLinkText": "Audit & Assurance Learning",
+        "questionsLinkUrl": "mailto:usaalearning2@deloitte.com",
+        "contactEmail": "usaalearning2@deloitte.com",
+        "heroImageUrl": "",
+        "tableHeight": 440,
+        "fitToWidth": true,
+        "sideGutter": 6,
+        "gutterColor": "#1e1f22",
+        "adminListName": "AssuranceLearningCalendarAdmins",
+        "visitsListName": "AssuranceLearningCalendarVisits",
+        "trackVisits": true
+      }
+    }
+  ]
+}

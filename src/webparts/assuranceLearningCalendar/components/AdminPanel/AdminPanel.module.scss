@@ -1,0 +1,842 @@
+@use '../styles/variables' as v;
+
+// The panel is rendered in document.body, so it uses viewport media queries.
+
+$header-bg: #13241a;
+$badge-bg: #1f4d2c;
+$tab-active-bg: rgba(47, 138, 54, 0.12);
+$danger: #c62828;
+$danger-bg: rgba(198, 40, 40, 0.06);
+$line: #dfe3e6;
+$muted-bg: #f3f5f6;
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(6, 10, 18, 0.62);
+  backdrop-filter: blur(2px);
+  font-family: v.$font-family;
+  box-sizing: border-box;
+  animation: alcAdminFade 0.18s ease-out;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+}
+
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1240px;
+  min-height: min(520px, calc(100vh - 48px));
+  max-height: min(900px, calc(100vh - 48px));
+  overflow: hidden;
+  border-radius: 12px;
+  background: v.$white;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  color: v.$text-strong;
+  animation: alcAdminRise 0.22s ease-out;
+}
+
+// ---------- header ----------
+
+.header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px 18px 28px;
+  background: $header-bg;
+  color: v.$white;
+}
+
+.badge {
+  flex: 0 0 auto;
+  padding: 5px 12px;
+  border: 1px solid rgba(124, 194, 110, 0.45);
+  border-radius: 5px;
+  background: $badge-bg;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #b9e3ae;
+}
+
+.title {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: v.$white;
+}
+
+.who {
+  flex: 0 1 auto;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.role {
+  margin-left: 8px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  font-weight: 700;
+  color: v.$white;
+}
+
+.close {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: v.$white;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background: rgba(255, 255, 255, 0.12);
+    outline: none;
+  }
+}
+
+// ---------- tabs ----------
+
+.tabs {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0 28px;
+  padding-top: 22px;
+  border-bottom: 1px solid $line;
+}
+
+.tab {
+  padding: 14px 26px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  border-radius: 6px 6px 0 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 500;
+  color: #4a4f55;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  &:focus-visible {
+    outline: 2px solid v.$green-600;
+    outline-offset: -2px;
+  }
+}
+
+.tabActive,
+.tabActive:hover {
+  border-bottom-color: v.$green-700;
+  background: $tab-active-bg;
+  color: v.$green-800;
+  font-weight: 600;
+}
+
+.body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 24px 28px 28px;
+  font-size: 15px;
+}
+
+// ---------- shared pieces ----------
+
+.sectionTitle {
+  margin: 0 0 16px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #2b2f33;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  margin-bottom: 18px;
+}
+
+.search {
+  flex: 1 1 320px;
+  height: 46px;
+  padding: 0 16px;
+  border: 1px solid v.$border;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 16px;
+  color: v.$text-strong;
+
+  &:focus {
+    border-color: v.$green-600;
+    box-shadow: 0 0 0 1px v.$green-600;
+    outline: none;
+  }
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+  &:focus-visible {
+    outline: 2px solid v.$green-300;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
+
+.primary {
+  background: #1f6b35;
+  color: v.$white;
+
+  &:hover:not(:disabled) {
+    background: #185a2c;
+  }
+}
+
+.blue {
+  background: v.$blue-700;
+  color: v.$white;
+
+  &:hover:not(:disabled) {
+    background: #154b7e;
+  }
+}
+
+.outline {
+  border-color: #9aa3ab;
+  background: v.$white;
+  color: #2f3740;
+
+  &:hover:not(:disabled) {
+    background: $muted-bg;
+  }
+}
+
+.danger {
+  border-color: rgba(198, 40, 40, 0.6);
+  background: v.$white;
+  color: $danger;
+
+  &:hover:not(:disabled) {
+    background: $danger-bg;
+  }
+}
+
+.dangerSolid {
+  background: $danger;
+  color: v.$white;
+
+  &:hover:not(:disabled) {
+    background: #a51f1f;
+  }
+}
+
+.small {
+  min-height: 34px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+.message {
+  margin: 0 0 18px;
+  padding: 12px 16px;
+  border-left: 4px solid;
+  border-radius: 4px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.info {
+  border-left-color: #e0a400;
+  background: #fff8e1;
+  color: #5d4a00;
+}
+
+.success {
+  border-left-color: v.$green-600;
+  background: #edf7ee;
+  color: #1d4d22;
+}
+
+.error {
+  border-left-color: $danger;
+  background: #fdecea;
+  color: #7a1c1c;
+}
+
+.errorList {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+// ---------- spinner ----------
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 70px 16px;
+  color: #6b7178;
+  font-size: 15px;
+}
+
+.spinner {
+  width: 46px;
+  height: 46px;
+  border: 4px solid #e1e5e8;
+  border-top-color: #6b7178;
+  border-radius: 50%;
+  animation: alcAdminSpin 0.8s linear infinite;
+}
+
+.spinnerSmall {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+  border-color: rgba(255, 255, 255, 0.35);
+  border-top-color: v.$white;
+}
+
+// ---------- tables ----------
+
+.tableWrap {
+  overflow: auto;
+  max-height: 520px;
+  border: 1px solid $line;
+  border-radius: 8px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+
+  th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 15px 16px;
+    background: v.$navy-950;
+    font-size: 15px;
+    font-weight: 700;
+    color: v.$white;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 14px 16px;
+    border-bottom: 1px solid $line;
+    font-size: 15px;
+    line-height: 1.4;
+    color: #33383d;
+    vertical-align: middle;
+  }
+
+  tbody tr:hover td {
+    background: #f7f9fa;
+  }
+}
+
+.center {
+  text-align: center !important;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.ellipsis {
+  max-width: 250px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.rowInactive td {
+  color: #8a9096;
+}
+
+.empty {
+  padding: 40px 16px !important;
+  color: v.$text-muted !important;
+  text-align: center;
+}
+
+.total {
+  margin-top: 12px;
+  font-size: 15px;
+  color: #4a4f55;
+  text-align: right;
+
+  strong {
+    color: v.$text-strong;
+  }
+}
+
+.pill {
+  display: inline-block;
+  min-width: 54px;
+  padding: 4px 12px;
+  border: 1px solid;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.pillYes {
+  border-color: rgba(47, 138, 54, 0.55);
+  background: #e7f4e8;
+  color: #1d5a24;
+}
+
+.pillSuper {
+  border-color: rgba(26, 90, 150, 0.55);
+  background: #e3effa;
+  color: #174c80;
+}
+
+.pillNo {
+  border-color: #b5bbc0;
+  background: #f4f5f6;
+  color: #565c62;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid #c9ced2;
+  border-radius: 6px;
+  background: v.$white;
+  color: #3a4047;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: $muted-bg;
+    border-color: #9aa3ab;
+  }
+
+  &:focus-visible {
+    outline: 2px solid v.$green-600;
+    outline-offset: 1px;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.iconDanger {
+  border-color: rgba(198, 40, 40, 0.5);
+  color: $danger;
+
+  &:hover:not(:disabled) {
+    background: $danger-bg;
+    border-color: $danger;
+  }
+}
+
+// ---------- forms ----------
+
+.formCard {
+  margin-bottom: 22px;
+  padding: 22px 24px 20px;
+  border: 1px solid $line;
+  border-radius: 8px;
+  background: #f8fafb;
+}
+
+.formTitle {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px 24px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.fieldWide {
+  grid-column: 1 / -1;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3d4349;
+}
+
+.required {
+  color: $danger;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 1px solid v.$border;
+  border-radius: 6px;
+  background: v.$white;
+  font-family: inherit;
+  font-size: 15px;
+  color: v.$text-strong;
+
+  &:focus {
+    border-color: v.$green-600;
+    box-shadow: 0 0 0 1px v.$green-600;
+    outline: none;
+  }
+
+  &:disabled {
+    background: #eef0f2;
+    color: #6b7178;
+  }
+}
+
+.textarea {
+  min-height: 86px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.invalid {
+  border-color: $danger !important;
+  box-shadow: 0 0 0 1px $danger !important;
+}
+
+.fieldError {
+  font-size: 13px;
+  color: $danger;
+}
+
+.hint {
+  font-size: 13px;
+  color: v.$text-muted;
+}
+
+.timeRow {
+  display: flex;
+  gap: 8px;
+
+  .input {
+    flex: 1 1 auto;
+  }
+
+  .select {
+    flex: 0 0 92px;
+  }
+}
+
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  align-items: center;
+  min-height: 42px;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  cursor: pointer;
+
+  input {
+    width: 18px;
+    height: 18px;
+    accent-color: v.$green-700;
+  }
+}
+
+.formButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+// ---------- Excel Import ----------
+
+.step {
+  padding-bottom: 26px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid $line;
+
+  &:last-child {
+    border-bottom: 0;
+    margin-bottom: 0;
+  }
+}
+
+.steps {
+  margin: 0 0 20px;
+  padding-left: 22px;
+  line-height: 1.9;
+  color: #3a3f44;
+}
+
+.link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: v.$blue-700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.hiddenFile {
+  display: none;
+}
+
+.buttonRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.folderIcon {
+  color: #f2c14e;
+}
+
+.preview {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border: 1px solid $line;
+  border-radius: 8px;
+  background: #f8fafb;
+
+  p {
+    margin: 0 0 8px;
+    line-height: 1.5;
+  }
+}
+
+.step .hint {
+  display: block;
+  margin: 14px 0 0;
+}
+
+.progress {
+  height: 8px;
+  margin: 14px 0 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e1e5e8;
+}
+
+.progressBar {
+  height: 100%;
+  background: v.$green-600;
+  transition: width 0.2s ease;
+}
+
+// ---------- Export Tracking Data ----------
+
+.box {
+  margin-bottom: 24px;
+  padding: 22px 24px;
+  border: 1px solid $line;
+  border-radius: 8px;
+  background: #f8fafb;
+
+  p {
+    margin: 0 0 18px;
+    line-height: 1.6;
+    color: #3a3f44;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 22px;
+    line-height: 1.9;
+    color: #3a3f44;
+  }
+}
+
+// ---------- Admin Access ----------
+
+.roles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.roleCard {
+  padding: 14px 16px;
+  border: 1px solid $line;
+  border-radius: 8px;
+  background: #f8fafb;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #3a3f44;
+
+  h4 {
+    margin: 0 0 6px;
+    font-size: 15px;
+    color: v.$text-strong;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+}
+
+.you {
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: v.$green-700;
+}
+
+// ---------- confirm dialog ----------
+
+.confirmBackdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(10, 16, 24, 0.45);
+}
+
+.confirm {
+  width: 100%;
+  max-width: 520px;
+  padding: 24px 26px 22px;
+  border-radius: 10px;
+  background: v.$white;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+
+  h3 {
+    margin: 0 0 10px;
+    font-size: 19px;
+  }
+
+  p {
+    margin: 0 0 8px;
+    line-height: 1.55;
+    color: #3a3f44;
+  }
+}
+
+@keyframes alcAdminFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes alcAdminRise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes alcAdminSpin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 900px) {
+  .roles { grid-template-columns: minmax(0, 1fr); }
+  .who { display: none; }
+}
+
+@media (max-width: 760px) {
+  .backdrop { padding: 8px; }
+  .panel { height: calc(100vh - 16px); max-height: none; border-radius: 10px; }
+  .header { padding: 12px 10px 12px 16px; gap: 10px; }
+  .title { font-size: 17px; }
+  .tabs { margin: 0 12px; padding-top: 10px; overflow-x: auto; flex-wrap: nowrap; }
+  .tab { padding: 10px 12px; font-size: 14px; white-space: nowrap; }
+  .body { padding: 16px 12px 20px; }
+  .formGrid { grid-template-columns: minmax(0, 1fr); }
+  .formCard { padding: 16px 14px; }
+  .table th,
+  .table td { padding: 10px; font-size: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .panel { animation: none; }
+  .spinner { animation-duration: 2s; }
+}

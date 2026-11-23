@@ -1,0 +1,41 @@
+@use './styles/variables' as v;
+
+.root {
+  // Every responsive rule in the web part responds to this container (the web part width),
+  // not the browser window, so it also adapts inside narrow SharePoint sections.
+  container: alc / inline-size;
+  width: 100%;
+  font-family: v.$font-family;
+  color: v.$text;
+  -webkit-font-smoothing: antialiased;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  button,
+  input {
+    font-family: inherit;
+  }
+}
+
+// Holds the page and, while the page is scaled to fit, the empty side bars.
+.frame {
+  width: 100%;
+}
+
+// Laid out at the design width and scaled with `zoom` (width and zoom are set inline).
+.fitted {
+  margin: 0 auto;
+}
+
+.page {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 38% 26% at 86% 30%, rgba(200, 236, 170, 0.5) 0%, rgba(200, 236, 170, 0) 100%),
+    radial-gradient(ellipse 70% 16% at 50% 61%, rgba(120, 205, 214, 0.55) 0%, rgba(120, 205, 214, 0) 100%),
+    linear-gradient(180deg, #ffffff 0%, #ffffff 30%, #f2f8f6 45%, #c7e9ec 60%, #e5f3f4 74%, #f4f8f8 100%);
+}

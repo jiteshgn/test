@@ -1,0 +1,138 @@
+@use '../styles/variables' as v;
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 470px;
+  color: v.$white;
+  background:
+    radial-gradient(ellipse 60% 90% at 0% 0%, rgba(8, 70, 30, 0.55) 0%, rgba(8, 70, 30, 0) 70%),
+    linear-gradient(100deg, #0f5c2b 0%, #1d7a36 22%, #27975a 40%, #1fa48a 55%, #16a6c9 70%, #12a2e2 100%);
+}
+
+.art {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 42%;
+  clip-path: ellipse(92% 134% at 100% -10%);
+  z-index: 0;
+}
+
+.artImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 1010px;
+  width: 58%;
+  padding: 40px 0 150px 52px;
+  box-sizing: border-box;
+}
+
+.title {
+  margin: 0 0 30px;
+  font-family: v.$font-family;
+  font-size: 40px;
+  font-size: clamp(30px, 2.08cqi, 40px);
+  white-space: nowrap;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: 0.1px;
+  color: v.$white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.text {
+  max-width: 930px;
+  margin: 0 0 22px;
+  font-family: v.$font-family;
+  font-size: 20px;
+  line-height: 1.68;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.96);
+
+  strong {
+    font-weight: 800;
+    color: v.$white;
+  }
+}
+
+.link {
+  color: v.$white;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  &:hover,
+  &:focus-visible {
+    color: #e7fff1;
+    text-decoration-thickness: 2px;
+  }
+}
+
+.wave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 150px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.waveBand {
+  fill: #8fcf6d;
+  opacity: 0.85;
+}
+
+.waveGlow {
+  fill: #ffffff;
+  opacity: 0.35;
+}
+
+.waveFill {
+  fill: #ffffff;
+}
+
+// ---------- responsive (container = web part width) ----------
+
+@container alc (max-width: 1400px) {
+  .hero { min-height: 430px; }
+  .title { margin-bottom: 24px; }
+  .text { font-size: 18px; }
+  .content { width: 58%; padding-bottom: 130px; }
+}
+
+@container alc (max-width: 1100px) {
+  .hero { min-height: 400px; }
+  .title { font-size: 30px; white-space: normal; }
+  .text { font-size: 16px; line-height: 1.6; }
+  .content { width: 62%; padding: 32px 0 120px 36px; }
+  .art { width: 46%; }
+  .wave { height: 110px; }
+}
+
+@container alc (max-width: 820px) {
+  .hero { min-height: 0; }
+  .content { width: 100%; max-width: none; padding: 28px 28px 110px; }
+  .art {
+    width: 100%;
+    clip-path: none;
+    opacity: 0.22;
+  }
+}
+
+@container alc (max-width: 560px) {
+  .title { font-size: 24px; margin-bottom: 16px; }
+  .text { font-size: 15px; margin-bottom: 14px; }
+  .content { padding: 22px 16px 80px; }
+  .wave { height: 70px; }
+}
